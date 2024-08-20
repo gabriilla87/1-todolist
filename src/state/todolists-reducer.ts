@@ -42,8 +42,10 @@ export const todolistsReducer = (state: Array<TodolistType>, action: ActionTypes
             return state.filter(el => el.id !== todolistId)
         }
         case "ADD-TODOLIST": {
+            debugger
             const {title, todolistId} = action.payload
-            return [...state, {id: todolistId, title, filter: "all"}]
+            debugger
+            return [{id: todolistId, title, filter: "all"}, ...state]
         }
         case "CHANGE-TODOLIST-TITLE": {
             const {todolistId, title} = action.payload

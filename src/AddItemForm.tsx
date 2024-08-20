@@ -18,6 +18,8 @@ export const AddItemForm = ({addItem}: AddItemFormPropsType) => {
         if (e.key === 'Enter') addingItem()
     };
     const addingItem = () => {
+        debugger
+
         if (newItemTitle.trim() !== '') {
             addItem(newItemTitle.trim());
             setNewItemTitle("")
@@ -28,6 +30,7 @@ export const AddItemForm = ({addItem}: AddItemFormPropsType) => {
     };
 
     return (
+
         <div>
             <TextField value={newItemTitle}
                        size={"small"}

@@ -1,5 +1,6 @@
 import {TasksStateType} from "../App";
 import {v1} from "uuid";
+import {AddTodolistAT, RemoveTodolistAT} from "./todolists-reducer";
 
 type RemoveTaskAT = {
     type: "REMOVE-TASK"
@@ -23,29 +24,45 @@ type ChangeTaskStatusAT = {
         isDone: boolean
     }
 }
+type ChangeTaskTitleAT = {
+    type: "CHANGE-TASK-TITLE"
+    payload: {
+        todolistId: string
+        taskId: string
+        title: string
+    }
+}
 
-type ActionTypes = RemoveTaskAT | AddTaskAT | ChangeTaskStatusAT
+type ActionTypes = RemoveTaskAT | AddTaskAT | ChangeTaskStatusAT | ChangeTaskTitleAT | AddTodolistAT | RemoveTodolistAT
 
-export const RemoveTaskAC = (taskId: string, todolistId: string): RemoveTaskAT => ({
+export const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskAT => ({
     type: "REMOVE-TASK",
     payload: {
         taskId,
         todolistId
     }
 })
-export const AddTaskAC = (todolistId: string, title: string): AddTaskAT => ({
+export const addTaskAC = (todolistId: string, title: string): AddTaskAT => ({
     type: "ADD-TASK",
     payload: {
         todolistId,
         title
     }
 })
-export const ChangeTaskStatusAC = (todolistId: string, taskId: string, isDone: boolean): ChangeTaskStatusAT => ({
+export const changeTaskStatusAC = (todolistId: string, taskId: string, isDone: boolean): ChangeTaskStatusAT => ({
     type: "CHANGE-TASK-STATUS",
     payload: {
         todolistId,
         taskId,
         isDone,
+    }
+})
+export const changeTaskTitleAC = (todolistId: string, taskId: string, title: string): ChangeTaskTitleAT => ({
+    type: "CHANGE-TASK-TITLE",
+    payload: {
+        todolistId,
+        taskId,
+        title,
     }
 })
 
@@ -59,9 +76,24 @@ export const tasksReducer = (state: TasksStateType, action: ActionTypes): TasksS
             const {todolistId, title} = action.payload
             return {...state, [todolistId]: [...state[todolistId], {id: v1(), title, isDone: false}]}
         }
-        case "CHANGE-TASK-STATUS":
+        case "CHANGE-TASK-STATUS": {
             const {todolistId, taskId, isDone} = action.payload
             return {...state, [todolistId]: state[todolistId].map(s => s.id === taskId ? {...s, isDone} : s)}
+        }
+        case "CHANGE-TASK-TITLE": {
+            const {todolistId, taskId, title} = action.payload
+            return {...state, [todolistId]: state[todolistId].map(s => s.id === taskId ? {...s, title} : s)}
+        }
+        case "ADD-TODOLIST": {
+            const {title, todolistId} = action.payload
+            return {...state, [todolistId]: []}
+        }
+        case "REMOVE-TODOLIST": {
+            const {todolistId} = action.payload
+            const copyState = {...state}
+            delete copyState[todolistId]
+            return copyState
+        }
         default:
             throw new Error("Wrong action type")
     }

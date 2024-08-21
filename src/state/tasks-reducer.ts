@@ -66,7 +66,22 @@ export const changeTaskTitleAC = (todolistId: string, taskId: string, title: str
     }
 })
 
-export const tasksReducer = (state: TasksStateType, action: ActionTypes): TasksStateType => {
+export const todolistId1 = v1();
+export const todolistId2 = v1();
+
+const initialState: TasksStateType = {
+    [todolistId1]: [
+        {id: v1(), title: "HTML&CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "ReactJS", isDone: false},
+    ],
+    [todolistId2]: [
+        {id: v1(), title: "Book", isDone: true},
+        {id: v1(), title: "Milk", isDone: true},
+    ]
+}
+
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionTypes): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK": {
             const {todolistId, taskId} = action.payload
@@ -96,6 +111,6 @@ export const tasksReducer = (state: TasksStateType, action: ActionTypes): TasksS
             return copyState
         }
         default:
-            throw new Error("Wrong action type")
+            return state
     }
 }

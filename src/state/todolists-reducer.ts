@@ -1,5 +1,6 @@
 import {FilterValuesType, TodolistType} from "../App";
 import {v1} from "uuid";
+import {todolistId1, todolistId2} from "./tasks-reducer";
 
 export type RemoveTodolistAT = {
     type: 'REMOVE-TODOLIST',
@@ -35,7 +36,13 @@ type ActionTypes =
     | ChangeTodolistFilterAT
     | ChangeTodolistTitleAT
 
-export const todolistsReducer = (state: Array<TodolistType>, action: ActionTypes): Array<TodolistType> => {
+
+const initialState: Array<TodolistType> = [
+    {id: todolistId1, title: "What to learn", filter: 'all'},
+    {id: todolistId2, title: "What to buy", filter: 'all'},
+]
+
+export const todolistsReducer = (state: Array<TodolistType> = initialState, action: ActionTypes): Array<TodolistType> => {
     switch (action.type) {
         case "REMOVE-TODOLIST": {
             const {todolistId} = action.payload
@@ -56,7 +63,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: ActionTypes
             return state.map(el => el.id === todolistId ? {...el, filter} : el)
         }
         default:
-            throw new Error("Wrong action type")
+            return state
     }
 }
 

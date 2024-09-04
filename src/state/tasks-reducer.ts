@@ -1,4 +1,4 @@
-import {TasksStateType} from "../App";
+import {TasksStateType} from "../AppWithRedux";
 import {v1} from "uuid";
 import {AddTodolistAT, RemoveTodolistAT} from "./todolists-reducer";
 
@@ -66,20 +66,7 @@ export const changeTaskTitleAC = (todolistId: string, taskId: string, title: str
     }
 })
 
-export const todolistId1 = v1();
-export const todolistId2 = v1();
-
-const initialState: TasksStateType = {
-    [todolistId1]: [
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "ReactJS", isDone: false},
-    ],
-    [todolistId2]: [
-        {id: v1(), title: "Book", isDone: true},
-        {id: v1(), title: "Milk", isDone: true},
-    ]
-}
+const initialState: TasksStateType = {}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionTypes): TasksStateType => {
     switch (action.type) {
@@ -100,9 +87,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return {...state, [todolistId]: state[todolistId].map(s => s.id === taskId ? {...s, title} : s)}
         }
         case "ADD-TODOLIST": {
-            debugger
-            const {title, todolistId} = action.payload
-            return {...state, [todolistId]: []}
+            return {...state, [action.payload.todolistId]: []}
         }
         case "REMOVE-TODOLIST": {
             const {todolistId} = action.payload

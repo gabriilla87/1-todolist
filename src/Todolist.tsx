@@ -8,12 +8,13 @@ import {addTaskAC} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {Task} from "./Task";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
 
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
+// export type TaskType = {
+//     id: string
+//     title: string
+//     isDone: boolean
+// }
 
 type TodolistPropsType = {
     todolistId: string
@@ -41,10 +42,10 @@ export const Todolist = memo(({
     let tasksForTodolist = [...tasks];
 
     if (filter === "completed") {
-        tasksForTodolist = tasks.filter(t => t.isDone);
+        tasksForTodolist = tasks.filter(t => t.status === TaskStatuses.Completed);
     }
     if (filter === "active") {
-        tasksForTodolist = tasks.filter(t => !t.isDone);
+        tasksForTodolist = tasks.filter(t => t.status === TaskStatuses.New);
     }
 
     const onAllClickHandler = useCallback(() => {
@@ -77,10 +78,8 @@ export const Todolist = memo(({
             <AddItemForm addItem={addTask}/>
             <div>
                 {tasksForTodolist.map(t => <Task key={t.id}
+                                                 task={t}
                                                  todolistId={todolistId}
-                                                 taskId={t.id}
-                                                 title={t.title}
-                                                 isDone={t.isDone}
                 />)}
             </div>
             <div>

@@ -1,56 +1,6 @@
 import axios from "axios";
 import {TodolistType} from "../state/todolists-reducer";
 
-type ResponseType<D = {}> = {
-    resultCode: number
-    messages: string[]
-    data: D
-}
-
-export enum TaskStatuses {
-    New = 0,
-    InProgress = 1,
-    Completed = 2,
-    Draft = 3,
-}
-
-export enum TaskPriorities {
-    Low = 0,
-    Middle = 1,
-    Hi = 2,
-    Urgently = 3,
-    Later = 4,
-}
-
-export type TaskType = {
-    description: string
-    title: string
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDate: string
-    deadline: string
-    id: string
-    todoListId: string
-    order: number
-    addedDate: string
-}
-
-type GetTasksResponseType = {
-    error: string | null
-    totalCount: number
-    items: TaskType[]
-}
-
-// type UpdateTaskFragmentType = {
-//     title: string
-//     description: string
-//     completed: boolean
-//     status: number
-//     priority: number
-//     startDate: string
-//     deadline: string
-// }
-
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1/",
     withCredentials: true,
@@ -59,8 +9,9 @@ const instance = axios.create({
     }
 })
 
+//api
 export const todolistsApi = {
-    getTodolist() {
+    getTodolists() {
         return instance.get<TodolistType[]>("todo-lists")
     },
     createTodolist(title: string) {
@@ -87,9 +38,52 @@ export const todolistsApi = {
     deleteTask(todolistId: string, taskId: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
-    updateTaskTitle(todolistId: string, taskId: string, title: string) {
-        return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, {
-            title
-        })
+    updateTask(todolistId: string, taskId: string, taskFragment: TaskFragmentType) {
+        return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, taskFragment)
     }
+}
+
+//types
+type ResponseType<D = {}> = {
+    resultCode: number
+    messages: string[]
+    data: D
+}
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3,
+}
+export enum TaskPriorities {
+    Low = 0,
+    Middle = 1,
+    Hi = 2,
+    Urgently = 3,
+    Later = 4,
+}
+export type TaskType = {
+    description: string
+    title: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string
+    deadline: string
+    id: string
+    todoListId: string
+    order: number
+    addedDate: string
+}
+type GetTasksResponseType = {
+    error: string | null
+    totalCount: number
+    items: TaskType[]
+}
+export type TaskFragmentType = {
+    title?: string
+    description?: string
+    status?: TaskStatuses
+    priority?: TaskPriorities
+    startDate?: string
+    deadline?: string
 }

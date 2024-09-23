@@ -1,8 +1,8 @@
 import React, {useReducer} from 'react';
-import './App.css';
-import {Todolist} from './Todolist';
+import '../App.css';
+import {Todolist} from '../features/TodolistsList/Todolist/Todolist';
 import {v1} from 'uuid';
-import {AddItemForm} from './AddItemForm';
+import {AddItemForm} from '../components/AddItemForm/AddItemForm';
 import {AppBar, Button, Container, Grid, Paper, Toolbar, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton/IconButton";
 import {Menu} from "@mui/icons-material";
@@ -11,9 +11,9 @@ import {
     changeTodolistFilterAC, changeTodolistTitleAC,
     removeTodolistAC,
     todolistsReducer
-} from "./state/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
-import {TaskPriorities, TaskStatuses} from "./api/todolists-api";
+} from "../state/todolists-reducer";
+import {removeTaskAC, tasksReducer, updateTaskAC} from "../state/tasks-reducer";
+import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
 
 
 export type FilterValuesType = "all" | "active" | "completed";
@@ -120,16 +120,16 @@ function AppWithReducers() {
         dispatchToTasksReducer(removeTaskAC(id, todolistId))
     }
 
-    function addTask(title: string, todolistId: string) {
-        dispatchToTasksReducer(addTaskAC(title, todolistId))
-    }
+    // function addTask(title: string, todolistId: string) {
+    //     dispatchToTasksReducer(addTaskAC(title, todolistId))
+    // }
 
-    function changeStatus(id: string, status: TaskStatuses, todolistId: string) {
-        dispatchToTasksReducer(changeTaskStatusAC(todolistId, id, status))
+    function changeTaskStatus(id: string, status: TaskStatuses, todolistId: string) {
+        dispatchToTasksReducer(updateTaskAC(todolistId, id, {status}))
     }
 
     function changeTaskTitle(id: string, newTitle: string, todolistId: string) {
-        dispatchToTasksReducer(changeTaskTitleAC(id, newTitle, todolistId))
+        dispatchToTasksReducer(updateTaskAC(todolistId, id, {title: newTitle}))
     }
 
 
@@ -148,7 +148,7 @@ function AppWithReducers() {
     }
 
     function addTodolist(title: string) {
-        const action = addTodolistAC(title)
+        const action = addTodolistAC({title: "What to play", addedDate:"", order: 0, id: "todolistId1"})
         dispatchToTodolistsReducer(action)
         dispatchToTasksReducer(action)
     }

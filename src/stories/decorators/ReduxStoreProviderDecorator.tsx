@@ -1,11 +1,11 @@
 import React from 'react'
 import {Provider} from "react-redux";
-import {AppRootStateType} from "./state/store";
+import {AppRootStateType} from "../../state/store";
 import {combineReducers, legacy_createStore} from "redux";
-import { tasksReducer } from './state/tasks-reducer';
-import {todolistsReducer} from "./state/todolists-reducer";
+import { tasksReducer } from '../../state/tasks-reducer';
+import {todolistsReducer} from "../../state/todolists-reducer";
 import {v1} from "uuid";
-import {TaskPriorities, TaskStatuses} from "./api/todolists-api";
+import {TaskPriorities, TaskStatuses} from "../../api/todolists-api";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
@@ -73,7 +73,7 @@ const initialGlobalState = {
     }
 };
 
-//@ts-ignore
+// @ts-ignore
 export const storyBookStore = legacy_createStore(rootReducer, initialGlobalState as AppRootStateType);
 
 

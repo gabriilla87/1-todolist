@@ -1,20 +1,13 @@
-import React, {memo, useCallback} from 'react';
-import {FilterValuesType} from "./AppWithRedux";
-import {AddItemForm} from "./AddItemForm";
-import {EditableSpan} from "./EditableSpan";
+import React, {memo, useCallback, useEffect} from 'react';
+import {FilterValuesType} from "../../../app/App";
+import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
+import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {addTaskAC} from "./state/tasks-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
-import {Task} from "./Task";
-import {TaskStatuses, TaskType} from "./api/todolists-api";
-
-// export type TaskType = {
-//     id: string
-//     title: string
-//     isDone: boolean
-// }
+import {addTaskTC, fetchTasksTC} from "../../../state/tasks-reducer";
+import {useAppDispatch, useAppSelector} from "../../../state/store";
+import {Task} from "./Task/Task";
+import {TaskStatuses, TaskType} from "../../../api/todolists-api";
 
 type TodolistPropsType = {
     todolistId: string
@@ -34,10 +27,12 @@ export const Todolist = memo(({
                                   removeTodolist
                               }: TodolistPropsType) => {
 
-    console.log("Todolist is called")
+    const tasks = useAppSelector<Array<TaskType>>(state => state.tasks[todolistId])
+    const dispatch = useAppDispatch()
 
-    const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todolistId])
-    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchTasksTC(todolistId))
+    }, [dispatch, todolistId]);
 
     let tasksForTodolist = [...tasks];
 
@@ -64,7 +59,7 @@ export const Todolist = memo(({
         changeTodolistTitle(title, todolistId)
     }, [changeTodolistTitle, todolistId]);
     const addTask = useCallback((title: string) => {
-        dispatch(addTaskAC(todolistId, title))
+        dispatch(addTaskTC(todolistId, title))
     }, [dispatch, todolistId])
 
     return (

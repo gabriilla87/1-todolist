@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import './App.css';
-import {Todolist} from './Todolist';
+import '../App.css';
+import {Todolist} from '../features/TodolistsList/Todolist/Todolist';
 import {v1} from 'uuid';
-import {AddItemForm} from './AddItemForm';
+import {AddItemForm} from '../components/AddItemForm/AddItemForm';
 import {AppBar, Button, Container, Grid, Paper, Toolbar, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton/IconButton";
 import {Menu} from "@mui/icons-material";
-import {TodolistDomainType} from "./state/todolists-reducer";
-import {TaskPriorities, TaskStatuses, TaskType} from "./api/todolists-api";
+import {TodolistDomainType} from "../state/todolists-reducer";
+import {TaskPriorities, TaskStatuses, TaskType} from "../api/todolists-api";
 
 
 export type FilterValuesType = "all" | "active" | "completed";

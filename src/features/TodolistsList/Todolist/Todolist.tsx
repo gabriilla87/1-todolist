@@ -4,84 +4,86 @@ import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {addTaskTC, fetchTasksTC} from "../../../state/tasks-reducer";
+import {addTaskTC, DomainTaskType, fetchTasksTC} from "../../../state/tasks-reducer";
 import {useAppDispatch, useAppSelector} from "../../../state/store";
 import {Task} from "./Task/Task";
-import {TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {TaskStatuses} from "../../../api/todolists-api";
+import {TodolistDomainType} from "../../../state/todolists-reducer";
 
 type TodolistPropsType = {
-    todolistId: string
-    title: string
+    todolist: TodolistDomainType
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     changeTodolistTitle: (title: string, todolistId: string) => void
-    filter: string
     removeTodolist: (todolistId: string) => void
+    demo?: boolean
 }
 
-export const Todolist = memo(({
-                                  changeTodolistTitle,
-                                  title,
-                                  changeFilter,
-                                  filter,
-                                  todolistId,
-                                  removeTodolist
-                              }: TodolistPropsType) => {
+export const Todolist: React.FC<TodolistPropsType> = memo(({demo = false, ...props}: TodolistPropsType) => {
+    const {todolist, changeTodolistTitle, changeFilter, removeTodolist} = props
 
-    const tasks = useAppSelector<Array<TaskType>>(state => state.tasks[todolistId])
+    const tasks = useAppSelector<Array<DomainTaskType>>(state => state.tasks[todolist.id])
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(fetchTasksTC(todolistId))
-    }, [dispatch, todolistId]);
+        if(demo) {
+            return
+        }
+        dispatch(fetchTasksTC(todolist.id))
+    }, [dispatch, todolist.id]);
 
     let tasksForTodolist = [...tasks];
 
-    if (filter === "completed") {
+    if (todolist.filter === "completed") {
         tasksForTodolist = tasks.filter(t => t.status === TaskStatuses.Completed);
     }
-    if (filter === "active") {
+    if (todolist.filter === "active") {
         tasksForTodolist = tasks.filter(t => t.status === TaskStatuses.New);
     }
 
     const onAllClickHandler = useCallback(() => {
-        changeFilter("all", todolistId)
-    }, [changeFilter, todolistId]);
+        changeFilter("all", todolist.id)
+    }, [changeFilter, todolist.id]);
     const onActiveClickHandler = useCallback(() => {
-        changeFilter("active", todolistId)
-    }, [changeFilter, todolistId]);
+        changeFilter("active", todolist.id)
+    }, [changeFilter, todolist.id]);
     const onCompletedClickHandler = useCallback(() => {
-        changeFilter("completed", todolistId)
-    }, [changeFilter, todolistId]);
+        changeFilter("completed", todolist.id)
+    }, [changeFilter, todolist.id]);
     const removeTodolistOnClickHandler = useCallback(() => {
-        removeTodolist(todolistId)
-    }, [removeTodolist, todolistId]);
+        removeTodolist(todolist.id)
+    }, [removeTodolist, todolist.id]);
     const onChangeTodolistTitle = useCallback((title: string) => {
-        changeTodolistTitle(title, todolistId)
-    }, [changeTodolistTitle, todolistId]);
+        changeTodolistTitle(title, todolist.id)
+    }, [changeTodolistTitle, todolist.id]);
     const addTask = useCallback((title: string) => {
-        dispatch(addTaskTC(todolistId, title))
-    }, [dispatch, todolistId])
+        dispatch(addTaskTC(todolist.id, title))
+    }, [dispatch, todolist.id])
+
+    const isDisabled = todolist.entityStatus === "loading"
 
     return (
         <div>
             <h3>
-                <EditableSpan title={title} onChange={onChangeTodolistTitle}/>
-                <IconButton aria-label="delete" onClick={removeTodolistOnClickHandler}>
+                <EditableSpan title={todolist.title} onChange={onChangeTodolistTitle} disabled={isDisabled}/>
+                <IconButton aria-label={"delete"}
+                            onClick={removeTodolistOnClickHandler}
+                            disabled={isDisabled}
+                >
                     <Delete/>
                 </IconButton>
             </h3>
-            <AddItemForm addItem={addTask}/>
+            <AddItemForm addItem={addTask} disabled={isDisabled}/>
             <div>
                 {tasksForTodolist.map(t => <Task key={t.id}
                                                  task={t}
-                                                 todolistId={todolistId}
+                                                 todolistId={todolist.id}
                 />)}
             </div>
             <div>
-                <Button variant={filter === 'all' ? 'contained' : 'text'} onClick={onAllClickHandler}>All</Button>
-                <Button color={"primary"} variant={filter === 'active' ? 'contained' : 'text'}
+                <Button variant={todolist.filter === 'all' ? 'contained' : 'text'} onClick={onAllClickHandler}>All</Button>
+                <Button color={"primary"} variant={todolist.filter === 'active' ? 'contained' : 'text'}
                         onClick={onActiveClickHandler}>Active</Button>
-                <Button color={"secondary"} variant={filter === 'completed' ? 'contained' : 'text'}
+                <Button color={"secondary"} variant={todolist.filter === 'completed' ? 'contained' : 'text'}
                         onClick={onCompletedClickHandler}>Completed</Button>
             </div>
         </div>

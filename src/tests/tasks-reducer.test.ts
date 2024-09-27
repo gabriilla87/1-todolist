@@ -4,7 +4,7 @@ import {
     setTodolistsAC,
     tasksReducer, updateTaskAC
 } from '../state/tasks-reducer';
-import {TasksStateType} from '../trash/App';
+import {TasksStateType} from '../app/App';
 import {addTodolistAC, removeTodolistAC} from '../state/todolists-reducer';
 import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
 
@@ -22,7 +22,8 @@ beforeEach(() => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                startDate: ""
+                startDate: "",
+                entityStatus: "idle"
             },
             {
                 id: "2",
@@ -34,7 +35,8 @@ beforeEach(() => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                startDate: ""
+                startDate: "",
+                entityStatus: "idle"
             },
             {
                 id: "3",
@@ -46,7 +48,8 @@ beforeEach(() => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                startDate: ""
+                startDate: "",
+                entityStatus: "idle"
             }
         ],
         "todolistId2": [
@@ -60,7 +63,8 @@ beforeEach(() => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                startDate: ""
+                startDate: "",
+                entityStatus: "idle"
             },
             {
                 id: "2",
@@ -72,7 +76,8 @@ beforeEach(() => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                startDate: ""
+                startDate: "",
+                entityStatus: "idle"
             },
             {
                 id: "3",
@@ -84,7 +89,8 @@ beforeEach(() => {
                 deadline: "",
                 description: "",
                 priority: TaskPriorities.Low,
-                startDate: ""
+                startDate: "",
+                entityStatus: "idle"
             }
         ]
     };

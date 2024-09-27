@@ -11,11 +11,18 @@ import {
 } from "../../state/todolists-reducer";
 import {FilterValuesType} from "../../app/App";
 
-export const TodolistsList: React.FC = () => {
+type PropsType = {
+    demo?: boolean
+}
+
+export const TodolistsList: React.FC<PropsType> = ({demo = false}: PropsType) => {
     const dispatch = useAppDispatch()
     const todolists = useAppSelector<Array<TodolistDomainType>>(state => state.todolists)
 
     useEffect(() => {
+        if(demo) {
+            return
+        }
         dispatch(fetchTodolistsTC())
     }, []);
 
@@ -46,9 +53,8 @@ export const TodolistsList: React.FC = () => {
                         <Grid item key={tl.id}>
                             <Paper style={{padding: "10px"}}>
                                 <Todolist
-                                    todolistId={tl.id}
-                                    title={tl.title}
-                                    filter={tl.filter}
+                                    todolist={tl}
+                                    demo={demo}
 
                                     changeFilter={changeTodolistFilter}
                                     removeTodolist={removeTodolist}

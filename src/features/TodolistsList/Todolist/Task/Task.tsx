@@ -1,13 +1,13 @@
 import React, {ChangeEvent, memo, useCallback} from "react";
-import {removeTaskTC, updateTaskTC} from "../../../../state/tasks-reducer";
+import {DomainTaskType, removeTaskTC, updateTaskTC} from "../../../../state/tasks-reducer";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskStatuses, TaskType} from "../../../../api/todolists-api";
+import {TaskStatuses} from "../../../../api/todolists-api";
 import {useAppDispatch} from "../../../../state/store";
 
 type TaskPT = {
-    task: TaskType
+    task: DomainTaskType
     todolistId: string
     changeTaskStatus?: () => void
     changeTaskTitle?: () => void
@@ -33,12 +33,22 @@ export const Task = memo(({todolistId, task, ...restProps}: TaskPT) => {
         dispatch(updateTaskTC(todolistId, task.id, {title}))
     }, [dispatch, todolistId, task.id])
 
+    const isDisabled = task.entityStatus === "loading"
 
     return (
         <div className={task.status === TaskStatuses.Completed ? 'is-done' : ''}>
-            <Checkbox checked={task.status === TaskStatuses.Completed} onChange={restProps.changeTaskStatus || onChangeTaskStatusHandler}/>
-            <EditableSpan title={task.title} onChange={restProps.changeTaskTitle || onChangeTaskTitleHandler}/>
-            <IconButton aria-label="delete" onClick={restProps.removeTask || onRemoveTaskHandler}>
+            <Checkbox checked={task.status === TaskStatuses.Completed}
+                      onChange={restProps.changeTaskStatus || onChangeTaskStatusHandler}
+                      disabled={isDisabled}
+            />
+            <EditableSpan title={task.title}
+                          onChange={restProps.changeTaskTitle || onChangeTaskTitleHandler}
+                          disabled={isDisabled}
+            />
+            <IconButton aria-label={"delete"}
+                        onClick={restProps.removeTask || onRemoveTaskHandler}
+                        disabled={isDisabled}
+            >
                 <Delete/>
             </IconButton>
         </div>

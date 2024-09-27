@@ -4,9 +4,10 @@ import {ControlPoint} from "@mui/icons-material";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
-export const AddItemForm = memo(({addItem}: AddItemFormPropsType) => {
+export const AddItemForm = memo(({addItem, disabled = false}: AddItemFormPropsType) => {
     let [newItemTitle, setNewItemTitle] = useState<string>('');
     let [error, setError] = useState<string | null>(null);
 
@@ -31,6 +32,7 @@ export const AddItemForm = memo(({addItem}: AddItemFormPropsType) => {
 
         <div>
             <TextField value={newItemTitle}
+                       disabled={disabled}
                        size={"small"}
                        variant={"outlined"}
                        label={"Type value"}
@@ -39,7 +41,7 @@ export const AddItemForm = memo(({addItem}: AddItemFormPropsType) => {
                        error={!!error}
                        helperText={error}
             />
-            <IconButton onClick={addingItem} color={"primary"}>
+            <IconButton onClick={addingItem} color={"primary"} disabled={disabled}>
                 <ControlPoint/>
             </IconButton>
         </div>

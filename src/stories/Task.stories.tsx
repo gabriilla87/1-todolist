@@ -1,7 +1,7 @@
-import {Task} from "./Task";
+import {Task} from "../features/TodolistsList/Todolist/Task/Task";
 import {action} from "@storybook/addon-actions"
-import {ReduxStoreProviderDecorator} from "../../../../stories/decorators/ReduxStoreProviderDecorator";
-import {TaskPriorities, TaskStatuses} from "../../../../api/todolists-api";
+import {ReduxStoreProviderDecorator} from "./decorators/ReduxStoreProviderDecorator";
+import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
 
 export default {
     title: "Task",
@@ -27,7 +27,8 @@ export const TasksWithCheckedAndUncheckedCheckbox = () => {
                     deadline: "",
                     description: "",
                     priority: TaskPriorities.Low,
-                    startDate: ""
+                    startDate: "",
+                    entityStatus: "idle"
                 }
             }
                   todolistId={"todolistId1"}
@@ -46,7 +47,8 @@ export const TasksWithCheckedAndUncheckedCheckbox = () => {
                     deadline: "",
                     description: "",
                     priority: TaskPriorities.Low,
-                    startDate: ""
+                    startDate: "",
+                    entityStatus: "idle"
                 }
             }
                   todolistId={"todolistId2"}

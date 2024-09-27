@@ -1,19 +1,29 @@
 import React from 'react';
 import '../App.css';
-import {AppBar, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
+import {AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {TaskType} from "../api/todolists-api";
 import {TodolistsList} from "../features/TodolistsList/TodolistsList";
+import {ErrorSnackbar} from "../components/ErrorSnackbar";
+import {useAppSelector} from "../state/store";
+import {RequestStatusType} from "../state/app-reducer";
+import {DomainTaskType} from "../state/tasks-reducer";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
 export type TasksStateType = {
-    [key: string]: TaskType[]
+    [key: string]: DomainTaskType[]
 }
 
-function App() {
+type PropsType = {
+    demo?: boolean
+}
+
+function App({demo = false}: PropsType) {
+    const status = useAppSelector<RequestStatusType>(state => state.app.status)
+
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <AppBar position={"static"}>
                 <Toolbar>
                     <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}>
@@ -24,9 +34,10 @@ function App() {
                     </Typography>
                     <Button color={"inherit"}>Login</Button>
                 </Toolbar>
+                {status === "loading" && <LinearProgress/>}
             </AppBar>
             <Container fixed>
-                <TodolistsList/>
+                <TodolistsList demo={demo}/>
             </Container>
         </div>
     );

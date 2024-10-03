@@ -1,5 +1,5 @@
 import {
-    addTaskAC,
+    addTaskAC, changeTaskEntityStatusAC,
     removeTaskAC, setTasksAC,
     setTodolistsAC,
     tasksReducer, updateTaskAC
@@ -183,4 +183,9 @@ test("tasks should be sets to the correct todolist", () => {
 
     expect(endState["todolistId1"].length).toBe(3)
     expect(endState["todolistId2"].length).toBe(0)
+})
+test("entityTest should be changed to the correct value", () => {
+    const endState = tasksReducer(startState, changeTaskEntityStatusAC("todolistId1", "1", "loading"))
+
+    expect(endState["todolistId1"][0].entityStatus).toBe("loading")
 })

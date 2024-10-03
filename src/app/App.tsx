@@ -1,12 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../App.css';
-import {AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography} from "@mui/material";
+import {
+    AppBar,
+    Button,
+    CircularProgress,
+    Container,
+    IconButton,
+    LinearProgress,
+    Toolbar,
+    Typography
+} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackbar";
-import {useAppSelector} from "../state/store";
+import {useAppDispatch, useAppSelector} from "../state/store";
 import {RequestStatusType} from "../state/app-reducer";
 import {DomainTaskType} from "../state/tasks-reducer";
+import {Outlet} from "react-router-dom";
+import {initializeAppTC, logoutTC} from "../state/auth-reducer";
+import {LogoutButton} from "../components/LogoutButton/LogoutButton";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -20,6 +31,25 @@ type PropsType = {
 
 function App({demo = false}: PropsType) {
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
+    const isInitialized = useAppSelector<boolean>(state => state.auth.isInitialized)
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(initializeAppTC())
+    }, [dispatch]);
+
+    const logoutHandler = () => {
+        dispatch(logoutTC())
+    }
+
+    if (!isInitialized) {
+        return (
+            <div style={{ position: 'fixed', top: '30%', textAlign: 'center', width: '100%' }}>
+                <CircularProgress />
+            </div>
+        )
+    }
 
     return (
         <div className="App">
@@ -33,11 +63,12 @@ function App({demo = false}: PropsType) {
                         News
                     </Typography>
                     <Button color={"inherit"}>Login</Button>
+                    {isLoggedIn ? <LogoutButton onClick={logoutHandler}/> : null}
                 </Toolbar>
                 {status === "loading" && <LinearProgress/>}
             </AppBar>
             <Container fixed>
-                <TodolistsList demo={demo}/>
+                <Outlet/>
             </Container>
         </div>
     );

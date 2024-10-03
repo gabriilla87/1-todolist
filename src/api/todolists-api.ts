@@ -31,7 +31,7 @@ export const todolistsApi = {
         return instance.get<GetTasksResponseType>(`todo-lists/${todolistId}/tasks`)
     },
     createTask(todolistId: string, title: string) {
-        return instance.post<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks`, {
+        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {
             title
         })
     },
@@ -39,7 +39,21 @@ export const todolistsApi = {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
     updateTask(todolistId: string, taskId: string, taskFragment: TaskFragmentType) {
-        return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, taskFragment)
+        return instance.put<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks/${taskId}`, taskFragment)
+    }
+}
+
+export const authAPI = {
+    login(email: string, password: string, rememberMe: boolean = false, captcha: boolean = false) {
+        return instance.post<ResponseType<{ userId: number }>>('/auth/login', {
+            email, password, rememberMe, captcha
+        } as LoginParamsType)
+    },
+    me() {
+        return instance.get<ResponseType<AuthMeDataType>>("/auth/me")
+    },
+    logout() {
+        return instance.delete<ResponseType>("auth/login")
     }
 }
 
@@ -49,12 +63,20 @@ export type ResponseType<D = {}> = {
     messages: string[]
     data: D
 }
+
+type AuthMeDataType = {
+    id: number
+    email: string
+    login: string
+}
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
     Completed = 2,
     Draft = 3,
 }
+
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
@@ -62,6 +84,7 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4,
 }
+
 export type TaskType = {
     description: string
     title: string
@@ -86,4 +109,10 @@ export type TaskFragmentType = {
     priority?: TaskPriorities
     startDate?: string
     deadline?: string
+}
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    captcha?: boolean
 }

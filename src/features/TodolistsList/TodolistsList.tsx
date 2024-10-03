@@ -10,6 +10,7 @@ import {
     TodolistDomainType
 } from "../../state/todolists-reducer";
 import {FilterValuesType} from "../../app/App";
+import {Navigate} from "react-router-dom";
 
 type PropsType = {
     demo?: boolean
@@ -18,13 +19,17 @@ type PropsType = {
 export const TodolistsList: React.FC<PropsType> = ({demo = false}: PropsType) => {
     const dispatch = useAppDispatch()
     const todolists = useAppSelector<Array<TodolistDomainType>>(state => state.todolists)
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
 
     useEffect(() => {
         if(demo) {
             return
         }
+        if (!isLoggedIn) {
+            return
+        }
         dispatch(fetchTodolistsTC())
-    }, []);
+    }, [demo, dispatch, isLoggedIn]);
 
     const removeTodolist = useCallback((todolistId: string) => {
         dispatch(removeTodolistTC(todolistId))
@@ -41,6 +46,10 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}: PropsType) =>
     const changeTodolistFilter = useCallback((value: FilterValuesType, todolistId: string) => {
         dispatch(changeTodolistFilterAC(todolistId, value))
     }, [dispatch])
+
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'} />
+    }
 
     return (
         <>

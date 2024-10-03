@@ -1,12 +1,14 @@
-const object1 = {
-    name: "Vlad",
-    city: "Minsk",
-    country: "Belarus"
-}
-
-const object2 = {
-    name: "Max",
-    city: "Moscow"
-}
-
-console.log({...object1, ...object2})
+console.log(1)
+console.log(2)
+let pr = new Promise((res) => {
+    console.log(2.1)
+    setTimeout(() => {
+        res()
+    }, 0)
+    console.log(2.2)
+})
+pr.then(() => {
+    console.log(4)
+})
+console.log(3)
+console.log(0)

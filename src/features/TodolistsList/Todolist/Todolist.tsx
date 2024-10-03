@@ -29,7 +29,7 @@ export const Todolist: React.FC<TodolistPropsType> = memo(({demo = false, ...pro
             return
         }
         dispatch(fetchTasksTC(todolist.id))
-    }, [dispatch, todolist.id]);
+    }, [dispatch, todolist.id, demo]);
 
     let tasksForTodolist = [...tasks];
 

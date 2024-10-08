@@ -1,5 +1,4 @@
 import React from 'react'
-import Grid from '@mui/material/Grid'
 import Checkbox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -11,6 +10,7 @@ import {useFormik} from "formik";
 import {loginTC} from "../../state/auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../state/store";
 import {Navigate} from "react-router-dom";
+import {Grid2 as Grid} from "@mui/material";
 
 type FormikErrorType = {
     email?: string
@@ -56,7 +56,7 @@ export const Login = () => {
 
     return (
         <Grid container justifyContent={'center'}>
-            <Grid item justifyContent={'center'}>
+            <Grid justifyContent={'center'}>
                 <form onSubmit={formik.handleSubmit}>
                     <FormControl>
                         <FormLabel>

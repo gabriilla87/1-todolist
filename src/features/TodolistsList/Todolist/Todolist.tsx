@@ -1,10 +1,10 @@
-import React, {memo, useCallback, useEffect} from 'react';
+import React, {memo, useCallback} from 'react';
 import {FilterValuesType} from "../../../app/App";
 import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {addTaskTC, DomainTaskType, fetchTasksTC} from "../../../state/tasks-reducer";
+import {addTaskTC, DomainTaskType} from "../../../state/tasks-reducer";
 import {useAppDispatch, useAppSelector} from "../../../state/store";
 import {Task} from "./Task/Task";
 import {TaskStatuses} from "../../../api/todolists-api";
@@ -23,13 +23,6 @@ export const Todolist: React.FC<TodolistPropsType> = memo(({demo = false, ...pro
 
     const tasks = useAppSelector<Array<DomainTaskType>>(state => state.tasks[todolist.id])
     const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        if(demo) {
-            return
-        }
-        dispatch(fetchTasksTC(todolist.id))
-    }, [dispatch, todolist.id, demo]);
 
     let tasksForTodolist = [...tasks];
 

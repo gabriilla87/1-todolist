@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {Grid, Paper} from "@mui/material";
+import {Grid2 as Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {useAppDispatch, useAppSelector} from "../../state/store";
@@ -59,7 +59,7 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}: PropsType) =>
             <Grid container spacing={3}>
                 {todolists.map(tl => {
                     return (
-                        <Grid item key={tl.id}>
+                        <Grid key={tl.id}>
                             <Paper style={{padding: "10px"}}>
                                 <Todolist
                                     todolist={tl}

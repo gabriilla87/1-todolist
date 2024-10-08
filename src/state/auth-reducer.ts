@@ -3,6 +3,8 @@ import {authAPI, LoginParamsType} from "../api/todolists-api";
 import {AppThunk} from "./store";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 import {AxiosError} from "axios";
+import {clearTodolistsDataAC} from "./todolists-reducer";
+import {clearTasksDataAC} from "./tasks-reducer";
 
 const initialState = {
     isLoggedIn: false,
@@ -61,6 +63,8 @@ export const logoutTC = (): AppThunk => async dispatch => {
         const res = await authAPI.logout()
         if (res.data.resultCode === 0) {
             dispatch(setIsLoggedInAC(false))
+            dispatch(clearTodolistsDataAC())
+            dispatch(clearTasksDataAC())
             dispatch(setAppStatus('succeeded'))
         } else {
             handleServerAppError(res.data, dispatch)

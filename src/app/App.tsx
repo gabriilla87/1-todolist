@@ -25,11 +25,8 @@ export type TasksStateType = {
     [key: string]: DomainTaskType[]
 }
 
-type PropsType = {
-    demo?: boolean
-}
 
-function App({demo = false}: PropsType) {
+function App() {
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
     const isInitialized = useAppSelector<boolean>(state => state.auth.isInitialized)
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)

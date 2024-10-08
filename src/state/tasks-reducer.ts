@@ -49,6 +49,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
                     ? {...t, entityStatus: action.status}
                     : t)
             }
+        case "TASKS/CLEAR-DATA":
+            return {}
         default:
             return state
     }
@@ -81,6 +83,10 @@ export const setTasksAC = (todolistId: string, tasks: TaskType[]) => ({
 export const changeTaskEntityStatusAC = (todolistId: string, taskId: string, status: RequestStatusType) => ({
     type: "CHANGE-TASK-ENTITY-STATUS", todolistId, taskId, status
 }) as const
+export const clearTasksDataAC = () => ({
+    type: "TASKS/CLEAR-DATA"
+}) as const
+
 
 //thunks
 export const fetchTasksTC = (todolistId: string): AppThunk =>
@@ -180,6 +186,7 @@ export type TasksActionTypes =
     | ReturnType<typeof addTodolistAC>
     | ReturnType<typeof removeTodolistAC>
     | ReturnType<typeof changeTaskEntityStatusAC>
+    | ReturnType<typeof clearTasksDataAC>
 
 type UpdateTaskFragmentType = {
     title?: string

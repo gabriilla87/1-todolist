@@ -1,13 +1,12 @@
-import {EditableSpan} from "../components/EditableSpan/EditableSpan";
-import {action} from "@storybook/addon-actions"
+import { EditableSpan } from "../components/EditableSpan/EditableSpan";
+import { action } from "@storybook/addon-actions";
 
 export default {
-    title: "Editable Span"
-}
+  title: "Editable Span",
+};
 
-const editableSpanOnChangeHandler = action("Value changed")
-
+const editableSpanOnChangeHandler = action("Value changed");
 
 export const EditableSpanDemo = () => {
-    return <EditableSpan title={"Cringe"} onChange={editableSpanOnChangeHandler}/>
-}
+  return <EditableSpan title={"Cringe"} onChange={editableSpanOnChangeHandler} />;
+};

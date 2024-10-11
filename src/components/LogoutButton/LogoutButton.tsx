@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
-import {IconButton} from "@mui/material";
+import { IconButton } from "@mui/material";
 
 type PropsType = {
-    onClick: () => void
-}
+  onClick: () => void;
+};
 
-export const LogoutButton = ({onClick}: PropsType) => {
-    return (
-        <IconButton aria-label={"logout"} onClick={onClick}>
-            <LogoutIcon color={"action"}/>
-        </IconButton>
-    );
+export const LogoutButton = ({ onClick }: PropsType) => {
+  return (
+    <IconButton aria-label={"logout"} onClick={onClick}>
+      <LogoutIcon color={"action"} />
+    </IconButton>
+  );
 };

@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { setAppError, setAppStatus } from "state/app-reducer";
+import { setAppError, setAppStatus } from "state/appSlice";
 import { ResponseType } from "api/todolists-api";
 import { AxiosError } from "axios";
 

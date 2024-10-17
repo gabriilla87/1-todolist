@@ -11,13 +11,13 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { ErrorSnackbar } from "../components/ErrorSnackbar";
-import { useAppDispatch, useAppSelector } from "../state/store";
-import { RequestStatusType } from "../state/app-reducer";
-import { DomainTaskType } from "../state/tasks-reducer";
+import { ErrorSnackbar } from "components/ErrorSnackbar";
+import { useAppDispatch, useAppSelector } from "state/store";
+import { RequestStatusType } from "state/appSlice";
+import { DomainTaskType } from "state/tasksSlice";
 import { Outlet } from "react-router-dom";
-import { initializeAppTC, logoutTC } from "../state/auth-reducer";
-import { LogoutButton } from "../components/LogoutButton/LogoutButton";
+import { initializeAppTC, logoutTC } from "state/authSlice";
+import { LogoutButton } from "components/LogoutButton/LogoutButton";
 
 export type FilterValuesType = "all" | "active" | "completed";
 

@@ -7,8 +7,8 @@ import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
-import { loginTC } from "../../state/auth-reducer";
-import { useAppDispatch, useAppSelector } from "../../state/store";
+import { loginTC } from "state/authSlice";
+import { useAppDispatch, useAppSelector } from "state/store";
 import { Navigate } from "react-router-dom";
 import { Grid2 as Grid } from "@mui/material";
 

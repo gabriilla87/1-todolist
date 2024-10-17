@@ -5,12 +5,12 @@ import { Todolist } from "./Todolist/Todolist";
 import { useAppDispatch, useAppSelector } from "state/store";
 import {
   addTodolistTC,
-  changeTodolistFilterAC,
+  changeTodolistFilter,
   changeTodolistTitleTC,
   fetchTodolistsTC,
   removeTodolistTC,
   TodolistDomainType,
-} from "state/todolists-reducer";
+} from "state/todolistsSlice";
 import { FilterValuesType } from "app/App";
 import { Navigate } from "react-router-dom";
 
@@ -54,9 +54,9 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }: PropsType) 
     [dispatch],
   );
 
-  const changeTodolistFilter = useCallback(
+  const changeTodolistFilterHandler = useCallback(
     (filter: FilterValuesType, todolistId: string) => {
-      dispatch(changeTodolistFilterAC({ todolistId, filter }));
+      dispatch(changeTodolistFilter({ todolistId, filter }));
     },
     [dispatch],
   );
@@ -78,7 +78,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }: PropsType) 
                 <Todolist
                   todolist={tl}
                   demo={demo}
-                  changeFilter={changeTodolistFilter}
+                  changeFilter={changeTodolistFilterHandler}
                   removeTodolist={removeTodolist}
                   changeTodolistTitle={changeTodolistTitle}
                 />

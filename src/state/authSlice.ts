@@ -1,41 +1,39 @@
-import { setAppStatus } from "./app-reducer";
+import { setAppStatus } from "state/appSlice";
 import { authAPI, LoginParamsType } from "api/todolists-api";
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { AxiosError } from "axios";
-import { clearTodolistsDataAC } from "./todolists-reducer";
-import { clearTasksDataAC } from "./tasks-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Dispatch } from "redux";
+import { clearData } from "common/common.actions";
 
-const initialState = {
-  isLoggedIn: false,
-  isInitialized: false,
-};
-
-const slice = createSlice({
+const authSlice = createSlice({
   name: "auth",
-  initialState: initialState,
+  initialState: {
+    isLoggedIn: false,
+    isInitialized: false,
+  },
   reducers: {
-    setIsLoggedInAC(state, action: PayloadAction<{ value: boolean }>) {
+    setIsLoggedIn(state, action: PayloadAction<{ value: boolean }>) {
       state.isLoggedIn = action.payload.value;
     },
-    setIsInitializedAC(state, action: PayloadAction<{ value: boolean }>) {
+    setIsInitialized(state, action: PayloadAction<{ value: boolean }>) {
       state.isInitialized = action.payload.value;
     },
   },
 });
 
-export const authReducer = slice.reducer;
-export const { setIsLoggedInAC, setIsInitializedAC } = slice.actions;
+export const authReducer = authSlice.reducer;
+export const { setIsLoggedIn, setIsInitialized } = authSlice.actions;
 
 // thunks
-export const loginTC = ({ email, password, rememberMe, captcha = false }: LoginParamsType) =>
+export const loginTC =
+  ({ email, password, rememberMe, captcha = false }: LoginParamsType) =>
   async (dispatch: Dispatch) => {
     dispatch(setAppStatus({ status: "loading" }));
     try {
       const res = await authAPI.login(email, password, rememberMe, captcha);
       if (res.data.resultCode === 0) {
-        dispatch(setIsLoggedInAC({ value: true }));
+        dispatch(setIsLoggedIn({ value: true }));
         dispatch(setAppStatus({ status: "succeeded" }));
       } else {
         handleServerAppError(res.data, dispatch);
@@ -48,11 +46,11 @@ export const loginTC = ({ email, password, rememberMe, captcha = false }: LoginP
 export const initializeAppTC = () => async (dispatch: Dispatch) => {
   const res = await authAPI.me();
   if (res.data.resultCode === 0) {
-    dispatch(setIsLoggedInAC({ value: true }));
+    dispatch(setIsLoggedIn({ value: true }));
   } else {
     handleServerAppError(res.data, dispatch);
   }
-  dispatch(setIsInitializedAC({ value: true }));
+  dispatch(setIsInitialized({ value: true }));
 };
 
 export const logoutTC = () => async (dispatch: Dispatch) => {
@@ -61,9 +59,8 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
   try {
     const res = await authAPI.logout();
     if (res.data.resultCode === 0) {
-      dispatch(setIsLoggedInAC({ value: false }));
-      dispatch(clearTodolistsDataAC());
-      dispatch(clearTasksDataAC());
+      dispatch(setIsLoggedIn({ value: false }));
+      dispatch(clearData());
       dispatch(setAppStatus({ status: "succeeded" }));
     } else {
       handleServerAppError(res.data, dispatch);

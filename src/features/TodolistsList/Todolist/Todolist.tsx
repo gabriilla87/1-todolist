@@ -4,11 +4,11 @@ import { AddItemForm } from "components/AddItemForm/AddItemForm";
 import { EditableSpan } from "components/EditableSpan/EditableSpan";
 import { Button, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import { addTaskTC, DomainTaskType } from "state/tasks-reducer";
+import { addTaskTC, DomainTaskType } from "state/tasksSlice";
 import { useAppDispatch, useAppSelector } from "state/store";
 import { Task } from "./Task/Task";
 import { TaskStatuses } from "api/todolists-api";
-import { TodolistDomainType } from "state/todolists-reducer";
+import { TodolistDomainType } from "state/todolistsSlice";
 
 type TodolistPropsType = {
   todolist: TodolistDomainType;

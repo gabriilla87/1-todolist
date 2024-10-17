@@ -1,10 +1,10 @@
 import React, { ChangeEvent, memo, useCallback } from "react";
-import { DomainTaskType, removeTaskTC, updateTaskTC } from "../../../../state/tasks-reducer";
+import { DomainTaskType, removeTaskTC, updateTaskTC } from "state/tasksSlice";
 import { Checkbox, IconButton } from "@mui/material";
-import { EditableSpan } from "../../../../components/EditableSpan/EditableSpan";
+import { EditableSpan } from "components/EditableSpan/EditableSpan";
 import { Delete } from "@mui/icons-material";
-import { TaskStatuses } from "../../../../api/todolists-api";
-import { useAppDispatch } from "../../../../state/store";
+import { TaskStatuses } from "api/todolists-api";
+import { useAppDispatch } from "state/store";
 
 type TaskPT = {
   task: DomainTaskType;

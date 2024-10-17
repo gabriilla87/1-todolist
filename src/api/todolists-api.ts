@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TodolistType } from "../state/todolists-reducer";
+import { TodolistType } from "state/todolistsSlice";
 
 const instance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.1/",

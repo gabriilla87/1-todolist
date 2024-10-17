@@ -1,9 +1,9 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { combineReducers} from "redux";
-import { tasksReducer } from "state/tasks-reducer";
-import { todolistsReducer } from "state/todolists-reducer";
-import { appReducer } from "state/app-reducer";
+import { combineReducers } from "redux";
+import { tasksReducer } from "state/tasksSlice";
+import { todolistsReducer } from "state/todolistsSlice";
+import { appReducer } from "state/appSlice";
 import { thunk } from "redux-thunk";
 import { configureStore } from "@reduxjs/toolkit";
 

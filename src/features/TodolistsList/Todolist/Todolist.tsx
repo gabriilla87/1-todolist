@@ -4,7 +4,7 @@ import { AddItemForm } from "components/AddItemForm/AddItemForm";
 import { EditableSpan } from "components/EditableSpan/EditableSpan";
 import { Button, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import { addTaskTC, DomainTaskType } from "state/tasksSlice";
+import { addTask, DomainTaskType } from "state/tasksSlice";
 import { useAppDispatch, useAppSelector } from "state/store";
 import { Task } from "./Task/Task";
 import { TaskStatuses } from "api/todolists-api";
@@ -51,9 +51,9 @@ export const Todolist: React.FC<TodolistPropsType> = memo(({ demo = false, ...pr
     },
     [changeTodolistTitle, todolist.id],
   );
-  const addTask = useCallback(
+  const addTaskHandler = useCallback(
     (title: string) => {
-      dispatch(addTaskTC(todolist.id, title));
+      dispatch(addTask({ todolistId: todolist.id, title }));
     },
     [dispatch, todolist.id],
   );
@@ -68,7 +68,7 @@ export const Todolist: React.FC<TodolistPropsType> = memo(({ demo = false, ...pr
           <Delete />
         </IconButton>
       </h3>
-      <AddItemForm addItem={addTask} disabled={isDisabled} />
+      <AddItemForm addItem={addTaskHandler} disabled={isDisabled} />
       <div>
         {tasksForTodolist.map((t) => (
           <Task key={t.id} task={t} todolistId={todolist.id} />

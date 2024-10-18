@@ -1,5 +1,5 @@
 import React, { ChangeEvent, memo, useCallback } from "react";
-import { DomainTaskType, removeTaskTC, updateTaskTC } from "state/tasksSlice";
+import { DomainTaskType, removeTask, updateTask } from "state/tasksSlice";
 import { Checkbox, IconButton } from "@mui/material";
 import { EditableSpan } from "components/EditableSpan/EditableSpan";
 import { Delete } from "@mui/icons-material";
@@ -18,14 +18,18 @@ export const Task = memo(({ todolistId, task, ...restProps }: TaskPT) => {
   const dispatch = useAppDispatch();
 
   const onRemoveTaskHandler = useCallback(() => {
-    dispatch(removeTaskTC(todolistId, task.id));
+    dispatch(removeTask({ todolistId, taskId: task.id }));
   }, [dispatch, task.id, todolistId]);
 
   const onChangeTaskStatusHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       dispatch(
-        updateTaskTC(todolistId, task.id, {
-          status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New,
+        updateTask({
+          todolistId,
+          taskId: task.id,
+          fragment: {
+            status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New,
+          },
         }),
       );
     },
@@ -34,7 +38,15 @@ export const Task = memo(({ todolistId, task, ...restProps }: TaskPT) => {
 
   const onChangeTaskTitleHandler = useCallback(
     (title: string) => {
-      dispatch(updateTaskTC(todolistId, task.id, { title }));
+      dispatch(
+        updateTask({
+          todolistId,
+          taskId: task.id,
+          fragment: {
+            title,
+          },
+        }),
+      );
     },
     [dispatch, todolistId, task.id],
   );

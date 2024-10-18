@@ -13,10 +13,10 @@ import {
 import { Menu } from "@mui/icons-material";
 import { ErrorSnackbar } from "components/ErrorSnackbar";
 import { useAppDispatch, useAppSelector } from "state/store";
-import { RequestStatusType } from "state/appSlice";
+import { initializeAppTC, RequestStatusType } from "state/appSlice";
 import { DomainTaskType } from "state/tasksSlice";
 import { Outlet } from "react-router-dom";
-import { initializeAppTC, logoutTC } from "state/authSlice";
+import { logoutTC } from "state/authSlice";
 import { LogoutButton } from "components/LogoutButton/LogoutButton";
 
 export type FilterValuesType = "all" | "active" | "completed";
@@ -27,7 +27,7 @@ export type TasksStateType = {
 
 function App() {
   const status = useAppSelector<RequestStatusType>((state) => state.app.status);
-  const isInitialized = useAppSelector<boolean>((state) => state.auth.isInitialized);
+  const isInitialized = useAppSelector<boolean>((state) => state.app.isInitialized);
   const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
   const dispatch = useAppDispatch();
 

@@ -2,11 +2,12 @@ import { FilterValuesType } from "app/App";
 import { todolistsApi } from "api/todolists-api";
 import { AppThunk } from "./store";
 import { RequestStatusType, setAppStatus } from "state/appSlice";
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
+import { handleServerNetworkError } from "utils/handle-server-network-error";
 import { AxiosError } from "axios";
-import { fetchTasksTC } from "state/tasksSlice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clearData } from "common/common.actions";
+import { fetchTasks } from "state/tasksSlice";
+import { handleServerAppError } from "utils/handle-server-app-error";
 
 const todolistsSlice = createSlice({
   name: "todolist",
@@ -73,7 +74,7 @@ export const fetchTodolistsTC = (): AppThunk => async (dispatch) => {
     const res = await todolistsApi.getTodolists();
     dispatch(setTodolists({ todolists: res.data }));
     dispatch(setAppStatus({ status: "succeeded" }));
-    res.data.forEach((tl) => dispatch(fetchTasksTC(tl.id)));
+    res.data.forEach((tl) => dispatch(fetchTasks(tl.id)));
   } catch (e) {
     handleServerNetworkError(e as AxiosError, dispatch);
   }

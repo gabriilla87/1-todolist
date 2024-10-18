@@ -1,29 +1,26 @@
 import { setAppStatus } from "state/appSlice";
 import { authAPI, LoginParamsType } from "api/todolists-api";
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
+import { handleServerNetworkError } from "utils/handle-server-network-error";
 import { AxiosError } from "axios";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Dispatch } from "redux";
 import { clearData } from "common/common.actions";
+import { handleServerAppError } from "utils/handle-server-app-error";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: false,
-    isInitialized: false,
   },
   reducers: {
     setIsLoggedIn(state, action: PayloadAction<{ value: boolean }>) {
       state.isLoggedIn = action.payload.value;
     },
-    setIsInitialized(state, action: PayloadAction<{ value: boolean }>) {
-      state.isInitialized = action.payload.value;
-    },
   },
 });
 
 export const authReducer = authSlice.reducer;
-export const { setIsLoggedIn, setIsInitialized } = authSlice.actions;
+export const { setIsLoggedIn } = authSlice.actions;
 
 // thunks
 export const loginTC =
@@ -42,16 +39,6 @@ export const loginTC =
       handleServerNetworkError(e as AxiosError, dispatch);
     }
   };
-
-export const initializeAppTC = () => async (dispatch: Dispatch) => {
-  const res = await authAPI.me();
-  if (res.data.resultCode === 0) {
-    dispatch(setIsLoggedIn({ value: true }));
-  } else {
-    handleServerAppError(res.data, dispatch);
-  }
-  dispatch(setIsInitialized({ value: true }));
-};
 
 export const logoutTC = () => async (dispatch: Dispatch) => {
   dispatch(setAppStatus({ status: "loading" }));

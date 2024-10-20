@@ -11,13 +11,13 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { ErrorSnackbar } from "components/ErrorSnackbar";
-import { useAppDispatch, useAppSelector } from "state/store";
-import { initializeAppTC, RequestStatusType } from "state/appSlice";
-import { DomainTaskType } from "state/tasksSlice";
+import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar";
+import { useAppDispatch, useAppSelector } from "app/store";
+import { initializeApp, RequestStatusType } from "app/appSlice";
 import { Outlet } from "react-router-dom";
-import { logoutTC } from "state/authSlice";
-import { LogoutButton } from "components/LogoutButton/LogoutButton";
+import { logout } from "features/auth/model/authSlice";
+import { LogoutButton } from "features/auth/ui/LogoutButton/LogoutButton";
+import { DomainTaskType } from "features/tasks/model/tasksSlice.types";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -32,11 +32,11 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(initializeAppTC());
+    dispatch(initializeApp());
   }, [dispatch]);
 
   const logoutHandler = () => {
-    dispatch(logoutTC());
+    dispatch(logout());
   };
 
   if (!isInitialized) {

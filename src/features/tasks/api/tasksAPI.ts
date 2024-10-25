@@ -1,7 +1,7 @@
-import { instance } from "common/instance/instance";
 import { GetTasksResponseType, UpdateTaskFragment } from "features/tasks/api/tasksAPI.types";
 import { CommonResponse } from "common/types/types";
 import { TaskType } from "features/tasks/model/tasksSlice.types";
+import { instance } from "common";
 
 export const tasksAPI = {
   getTasks(todolistId: string) {

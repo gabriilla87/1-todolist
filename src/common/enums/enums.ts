@@ -1,5 +1,5 @@
 export const ResultCode = {
-  success: 0,
-  failure: 1,
-  captcha: 10,
+  Success: 0,
+  Failure: 1,
+  Captcha: 10,
 } as const;

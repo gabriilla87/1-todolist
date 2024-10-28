@@ -5,10 +5,10 @@ import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import { Button, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { addTask } from "features/tasks/model/tasksSlice";
-import { useAppDispatch, useAppSelector } from "app/store";
 import { Task } from "features/tasks/ui/Task/Task";
 import { DomainTaskType, TaskStatuses } from "features/tasks/model/tasksSlice.types";
 import { TodolistDomainType } from "features/todolists/model/todolistsSlice.types";
+import { useAppDispatch, useAppSelector } from "common/hooks/hooks";
 
 type Props = {
   todolist: TodolistDomainType;

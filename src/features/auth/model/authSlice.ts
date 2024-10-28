@@ -41,13 +41,14 @@ export const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsTyp
     dispatch(setAppStatus({ status: "loading" }));
     try {
       const res = await authAPI.login(args);
-      if (res.data.resultCode === ResultCode.success) {
+      if (res.data.resultCode === ResultCode.Success) {
         dispatch(setIsLoggedIn({ value: true }));
         dispatch(setAppStatus({ status: "succeeded" }));
         return { isLoggedIn: true };
       } else {
-        handleServerAppError(res.data, dispatch);
-        return rejectWithValue(null);
+        const isShowGlobalError = !res.data.fieldsErrors.length;
+        handleServerAppError(res.data, dispatch, isShowGlobalError);
+        return rejectWithValue(res.data);
       }
     } catch (e) {
       handleServerNetworkError(e, dispatch);
@@ -60,7 +61,7 @@ export const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>("a
   try {
     dispatch(setAppStatus({ status: "loading" }));
     const res = await authAPI.logout();
-    if (res.data.resultCode === ResultCode.success) {
+    if (res.data.resultCode === ResultCode.Success) {
       dispatch(clearData());
       dispatch(setAppStatus({ status: "succeeded" }));
       return { isLoggedIn: false };
@@ -79,10 +80,10 @@ export const initializeApp = createAppAsyncThunk<{ isLoggedIn: true }, undefined
     const { dispatch, rejectWithValue } = thunkAPI;
     try {
       const res = await authAPI.me();
-      if (res.data.resultCode === ResultCode.success) {
+      if (res.data.resultCode === ResultCode.Success) {
         return { isLoggedIn: true };
       } else {
-        handleServerAppError(res.data, dispatch);
+        handleServerAppError(res.data, dispatch, false);
         return rejectWithValue(null);
       }
     } catch (e) {

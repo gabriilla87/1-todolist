@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from "react";
 import { Grid2 as Grid, Paper } from "@mui/material";
 import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import { Todolist } from "features/todolists/ui/Todolist/Todolist";
-import { useAppDispatch, useAppSelector } from "app/store";
 import {
   addTodolist,
   changeTodolistFilter,
@@ -13,6 +12,7 @@ import {
 import { FilterValuesType } from "app/App";
 import { Navigate } from "react-router-dom";
 import { TodolistDomainType } from "features/todolists/model/todolistsSlice.types";
+import { useAppDispatch, useAppSelector } from "common/hooks/hooks";
 
 type PropsType = {
   demo?: boolean;

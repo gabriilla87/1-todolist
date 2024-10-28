@@ -38,14 +38,13 @@ export const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: s
 
 export const addTask = createAppAsyncThunk<{ task: TaskType }, { todolistId: string; title: string }>(
   "tasks/addTask",
-  async (params, thunkAPI) => {
+  async (args, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
-    let task: TaskType;
     try {
       dispatch(setAppStatus({ status: "loading" }));
-      const res = await tasksAPI.createTask(params);
-      if (res.data.resultCode === ResultCode.success) {
-        task = res.data.data.item;
+      const res = await tasksAPI.createTask(args);
+      if (res.data.resultCode === ResultCode.Success) {
+        const task = res.data.data.item;
         dispatch(setAppStatus({ status: "succeeded" }));
         return { task };
       } else {
@@ -68,7 +67,7 @@ export const removeTask = createAppAsyncThunk<RemoveTaskData, RemoveTaskData>(
       dispatch(changeTaskEntityStatus({ todolistId, taskId, entityStatus: "loading" }));
       dispatch(setAppStatus({ status: "loading" }));
       const res = await tasksAPI.deleteTask(params);
-      if (res.data.resultCode === ResultCode.success) {
+      if (res.data.resultCode === ResultCode.Success) {
         dispatch(changeTaskEntityStatus({ todolistId, taskId, entityStatus: "succeeded" }));
         dispatch(setAppStatus({ status: "succeeded" }));
         return { todolistId, taskId };
@@ -108,7 +107,7 @@ export const updateTask = createAppAsyncThunk<UpdateTaskData, UpdateTaskData>(
         deadline,
         ...fragment,
       });
-      if (res.data.resultCode === ResultCode.success) {
+      if (res.data.resultCode === ResultCode.Success) {
         dispatch(changeTaskEntityStatus({ todolistId, taskId, entityStatus: "succeeded" }));
         dispatch(setAppStatus({ status: "succeeded" }));
         return { todolistId, taskId, fragment };

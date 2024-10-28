@@ -12,12 +12,12 @@ import {
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar";
-import { useAppDispatch, useAppSelector } from "app/store";
-import { initializeApp, RequestStatusType } from "app/appSlice";
+import { RequestStatusType } from "app/appSlice";
 import { Outlet } from "react-router-dom";
-import { logout } from "features/auth/model/authSlice";
+import { initializeApp, logout } from "features/auth/model/authSlice";
 import { LogoutButton } from "features/auth/ui/LogoutButton/LogoutButton";
 import { DomainTaskType } from "features/tasks/model/tasksSlice.types";
+import { useAppDispatch, useAppSelector } from "common/hooks/hooks";
 
 export type FilterValuesType = "all" | "active" | "completed";
 

@@ -3,8 +3,8 @@ import { removeTask, updateTask } from "features/tasks/model/tasksSlice";
 import { Checkbox, IconButton } from "@mui/material";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import { Delete } from "@mui/icons-material";
-import { useAppDispatch } from "app/store";
 import { DomainTaskType, TaskStatuses } from "features/tasks/model/tasksSlice.types";
+import { useAppDispatch } from "common/hooks/hooks";
 
 type Props = {
   task: DomainTaskType;
